@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
 namespace DependencyInjection
 {
@@ -29,11 +30,28 @@ namespace DependencyInjection
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<IStringHelper, StringHelper>();
+            services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo{ Title = "Dependency Injection API", Version = "v1"});
+                }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseSwagger(c =>
+            {
+                c.RouteTemplate = "api/StringHelper/swagger/{documentname}/swagger.json";
+            });
+
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/api/StringHelper/swagger/v1/swagger.json", "Dependency Injection API");
+                c.RoutePrefix = "api/StringHelper/swagger";
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -45,6 +63,7 @@ namespace DependencyInjection
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
         }
     }
 }
