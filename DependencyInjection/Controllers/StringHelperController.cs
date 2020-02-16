@@ -21,13 +21,11 @@ namespace DependencyInjection.Controllers
         }
 
         [HttpGet]
-        [Route("{str}")]
         public ActionResult<bool> GetPalindrome(string str)
         {
             return _stringHelper.IsPalindrome(str);
         }
         [HttpGet]
-        [Route("{str}")]
         public ActionResult<string> GetReverse(string str)
         {
             return _stringHelper.Reverse(str);
