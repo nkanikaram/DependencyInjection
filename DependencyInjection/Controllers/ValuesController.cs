@@ -21,10 +21,10 @@ namespace DependencyInjection.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get([FromServices] IStringHelper _stringHelper)
+        public ActionResult<IEnumerable<string>> Get([FromServices] IStringHelper stringHelper)
         {
-            Debug.WriteLine(_stringHelper.IsPalindrome("CIVIC"));
-            Debug.WriteLine(_stringHelper.Reverse("Naveen"));
+            Debug.WriteLine(stringHelper.IsPalindrome("CIVIC"));
+            Debug.WriteLine(stringHelper.Reverse("Naveen"));
 
             return new string[] { "value1", "value2" };
         }
